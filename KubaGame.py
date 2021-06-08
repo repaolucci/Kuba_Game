@@ -51,12 +51,29 @@ class KubaGame:
         if self.get_current_turn() != playername:
             return False
 
-        return True
+        # if game has already been won
+        if self.get_winner() is not None:
+            return False
 
+        # if coordinates are not valid
+        row, column = coordinates
+        if (row < 0) or (row > 6):
+            return False
+        if (column < 0) or (column > 6):
+            return False
+
+        #self.get_marble(coordinates)
+
+
+
+        return True
 
     def get_winner(self):
         """Returns the name of the winning player, or None if no player has won yet."""
         return self._winner
+
+    def set_winner(self, playername):
+        self._winner = playername
 
     def get_captured(self, player):
         """
