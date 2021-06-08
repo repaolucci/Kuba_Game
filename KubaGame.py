@@ -24,6 +24,7 @@ class KubaGame:
         self._w_count = 0
         self._b_count = 0
         self._r_count = 0
+        self._previous_board = None
         self._board = [["W", "W", "X", "X", "X", "B", "B"],
                        ["W", "W", "X", "R", "X", "B", "B"],
                        ["X", "X", "R", "R", "R", "X", "X"],
@@ -62,11 +63,23 @@ class KubaGame:
         if (column < 0) or (column > 6):
             return False
 
+        player_marble_color = self.get_marble(coordinates)
         # if marble color does not match player color
-        if self.get_marble(coordinates) != self.get_player_color(playername):
+        if player_marble_color != self.get_player_color(playername):
             return False
 
-        return True
+        # saves a copy of board
+        self._previous_board = self._board
+        # TODO: account for moves that undo the prior player's last move
+
+        if direction == "L":
+            if self._board[row][column + 1] != "X":
+                return False
+
+
+
+
+        #return True
 
     def get_winner(self):
         """Returns the name of the winning player, or None if no player has won yet."""
