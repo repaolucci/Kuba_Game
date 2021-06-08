@@ -64,7 +64,9 @@ class KubaGame:
         Takes the coordinates of a cell as a tuple, and returns the marble at that
         location, or 'X' if no marble is present.
         """
-        pass
+        cell_row, cell_column = coordinates
+
+        return self._board[cell_row][cell_column]
 
     def get_marble_count(self):
         """
