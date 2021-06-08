@@ -158,28 +158,60 @@ class KubaGame:
             #  account for captured Red marbles or removed marbles of the
             #  other player's color
             temp_board[row][column] = "X"
-            #
-            for marble in self._board[row][:column]:
+
+            for marble in self._board[row][column-1::-1]:
                 if marble != "X":  # if cell is not empty
                     if (column - 1) == 0:
                         if marble == "R":
                             self.set_captured(playername)
                             self._r_count -= 1
+                        if marble == "W":
+                            self._w_count -= 1
+                        if marble == "B":
+                            self._b_count -= 1
+                        temp_board[row][column - 1] = self._board[row][column]
+                        print(self._board)
+                        print(temp_board)
+                        break
+                    else:
+                        temp_board[row][column - 1] = self._board[row][column]
+                        column -= 1
+                else:
+                    temp_board[row][column - 1] = self._board[row][column]
+                    print(temp_board)
+                    break
+
+
+            # reversed_temp_row = copy.deepcopy(reversed(temp_board[row]))
+            # reversed_board_row = copy.deepcopy(reversed(self._board[row]))
+            #
+            # for marble in reversed_board_row[column + 1:]:
+            #     if marble != "X":  # if cell is not empty
+            #         if (column + 1) == 6:
+            #             if marble == "R":
+            #                 self.set_captured(playername)
+            #                 self._r_count -= 1
             #             if marble == "W":
             #                 self._w_count -= 1
             #             if marble == "B":
             #                 self._b_count -= 1
-            #             temp_board[row][column + 1] = self._board[row][column]
+            #             temp_board[row][column + 1] = reversed_board_row[column]
             #             print(self._board)
             #             print(temp_board)
             #             break
             #         else:
-            #             temp_board[row][column + 1] = self._board[row][column]
+            #             temp_board[row][column + 1] = reversed_board_row[column]
             #             column += 1
             #     else:
-            #         temp_board[row][column + 1] = self._board[row][column]
+            #         reversed_temp_row[column + 1] = reversed_board_row[column]
             #         print(temp_board)
             #         break
+            #
+            # temp_board[row] = reversed(reversed_temp_row)
+            # print(temp_board)
+            # self._board[row] = reversed(reversed_board_row)
+            # print(self._board)
+
 
         # disallows a move that would move the board back to previous state
         if temp_board == self._previous_board:
@@ -300,7 +332,7 @@ class KubaGame:
 # game.get_winner() #returns None
 # #print(game.make_move('PlayerA', (0, 0), 'R'))
 # print(game.make_move('PlayerA', (6,5), 'R'))
-# print(game.make_move('PlayerA', (6,5), 'F'))
+# print(game.make_move('PlayerA', (6,6), 'L'))
 # game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
 # game.get_marble((5,5)) #returns 'W'
 # print(game.get_marble_count())
