@@ -55,16 +55,16 @@ class KubaGame:
         if self.get_winner() is not None:
             return False
 
-        # if coordinates are not valid
         row, column = coordinates
+        # if coordinates are not valid
         if (row < 0) or (row > 6):
             return False
         if (column < 0) or (column > 6):
             return False
 
-        #self.get_marble(coordinates)
-
-
+        # if marble color does not match player color
+        if self.get_marble(coordinates) != self.get_player_color(playername):
+            return False
 
         return True
 
@@ -119,9 +119,19 @@ class KubaGame:
         """Returns the name of the player."""
         pass
 
-    def get_player_color(self):
+    def get_player_color(self, playername):
         """Returns the player marble color."""
+        if playername == self._player_1_name:
+            return self._player_1_color
+        if playername == self._player_2_name:
+            return self._player_2_color
         pass
+
+    def get_player(self, playername):
+        if playername == self._player_1_name:
+            return self._player_1
+        if playername == self._player_2_name:
+            return self._player_2
 
     def set_current_turn(self):
         """Sets self._current_turn to the other player when a valid move is made."""
