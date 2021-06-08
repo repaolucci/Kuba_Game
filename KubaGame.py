@@ -31,7 +31,7 @@ class KubaGame:
                        ["X", "R", "R", "R", "R", "R", "X"],
                        ["X", "X", "R", "R", "R", "X", "X"],
                        ["B", "B", "X", "R", "X", "W", "W"],
-                       ["B", "B", "X", "X", "X", "X", "W"]]
+                       ["B", "B", "X", "X", "X", "W", "W"]]
 
     def get_current_turn(self):
         """
