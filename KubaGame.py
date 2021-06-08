@@ -23,9 +23,9 @@ class KubaGame:
         self._winner = None
         self._player_1_captured = 0
         self._player_2_captured = 0
-        self._w_count = 0
-        self._b_count = 0
-        self._r_count = 0
+        self._w_count = 8
+        self._b_count = 8
+        self._r_count = 13
         self._previous_board = None
         self._board = [["W", "W", "X", "X", "X", "B", "B"],
                        ["W", "W", "X", "R", "X", "B", "B"],
@@ -103,6 +103,11 @@ class KubaGame:
                     if (column + 1) == 6:
                         if marble == "R":
                             self.set_captured(playername)
+                            self._r_count -= 1
+                        if marble == "W":
+                            self._w_count -= 1
+                        if marble == "B":
+                            self._b_count -= 1
                         temp_board[row][column + 1] = self._board[row][column]
                         print(self._board)
                         print(temp_board)
@@ -114,7 +119,6 @@ class KubaGame:
                     temp_board[row][column + 1] = self._board[row][column]
                     print(temp_board)
                     break
-
 
 
             # for marble in self._board[row][column + 1:]:
@@ -130,7 +134,6 @@ class KubaGame:
             #         break
             #         print(temp_board)
 
-            return
 
 
         # moves Left
@@ -150,16 +153,21 @@ class KubaGame:
             return False
 
         # sets new previous board and sets board to temporary board
-        #self._previous_board = self._board
-        #self._board = temp_board
+        self._previous_board = copy.deepcopy(self._board)
+        self._board = copy.deepcopy(temp_board)
+        print(self._previous_board)
+        print(self._board, "hello")
 
         # sets current turn to other player after a valid move
         self.set_current_turn(playername)
 
         # TODO: set winner if all opposing marbles are removed from the board
+        if self.get_captured(playername) == 7:
+            self.set_winner(playername)
+
 
         # TODO: returns True after a valid move
-        #return True
+        return True
 
     def get_winner(self):
         """Returns the name of the winning player, or None if no player has won yet."""
@@ -199,20 +207,20 @@ class KubaGame:
         Returns the number of White marbles, Black marbles, and Red marbles as
         a tuple.
         """
-        for row in self._board:
-            for cell in row:
-                if cell == "W":
-                    self._w_count += 1
-
-        for row in self._board:
-            for cell in row:
-                if cell == "B":
-                    self._b_count += 1
-
-        for row in self._board:
-            for cell in row:
-                if cell == "R":
-                    self._r_count += 1
+        # for row in self._board:
+        #     for cell in row:
+        #         if cell == "W":
+        #             self._w_count += 1
+        #
+        # for row in self._board:
+        #     for cell in row:
+        #         if cell == "B":
+        #             self._b_count += 1
+        #
+        # for row in self._board:
+        #     for cell in row:
+        #         if cell == "R":
+        #             self._r_count += 1
         return (self._w_count, self._b_count, self._r_count)
 
     def get_player_name(self):
@@ -241,13 +249,16 @@ class KubaGame:
             self._current_turn = self._player_1_name
 
 
-game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
-print(game.get_marble_count()) #returns (8,8,13)
-print(game.get_captured('PlayerA')) #returns 0
-game.get_winner() #returns None
-print(game.make_move('PlayerA', (0, 0), 'R'))
-#print(game.make_move('PlayerA', (1,0), 'R'))
-print(game.make_move('PlayerA', (6,5), 'F'))
-game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
-game.get_marble((5,5)) #returns 'W'
-print(game.get_current_turn())
+# game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
+# game.get_marble_count()
+# print(game.get_marble_count()) #returns (8,8,13)
+#
+# print(game.get_captured('PlayerA')) #returns 0
+# game.get_winner() #returns None
+# #print(game.make_move('PlayerA', (0, 0), 'R'))
+# print(game.make_move('PlayerA', (6,5), 'R'))
+# print(game.make_move('PlayerA', (6,5), 'F'))
+# game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
+# game.get_marble((5,5)) #returns 'W'
+# print(game.get_marble_count())
+# print(game.get_current_turn())
