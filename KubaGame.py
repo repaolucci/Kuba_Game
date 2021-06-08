@@ -181,11 +181,32 @@ class KubaGame:
                     print(temp_board)
                     break
 
+        # moves Forward
+        if direction == "F":
 
-            # reversed_temp_row = copy.deepcopy(reversed(temp_board[row]))
-            # reversed_board_row = copy.deepcopy(reversed(self._board[row]))
+            # checks for adjacent blank cell and returns False if spot aft
+            # of marble being moved is occupied
+            if (row - 1) >= 0:  # when player marble is not in topmost row
+                if temp_board[row + 1][column] != "X":
+                    return False
+
+            # TODO: account for player marble in last column
+            # checks if player's own marble would be pushed off
+            if row == 0:  # other marble colors are already weeded out
+                return False
+
+            # slices list after marble and determines if an empty cell would
+            # save a player's own marble from being pushed off
+            # if temp_board[row][-1] == player_marble_color:
+            #     if "X" not in temp_board[row][(column + 1):]:
+            #         return False
             #
-            # for marble in reversed_board_row[column + 1:]:
+            # # TODO: shift each marble in a row to the right by one column and
+            # #  account for captured Red marbles or removed marbles of the
+            # #  other player's color
+            # temp_board[row][column] = "X"
+            #
+            # for marble in self._board[row][column + 1:]:
             #     if marble != "X":  # if cell is not empty
             #         if (column + 1) == 6:
             #             if marble == "R":
@@ -195,22 +216,17 @@ class KubaGame:
             #                 self._w_count -= 1
             #             if marble == "B":
             #                 self._b_count -= 1
-            #             temp_board[row][column + 1] = reversed_board_row[column]
+            #             temp_board[row][column + 1] = self._board[row][column]
             #             print(self._board)
             #             print(temp_board)
             #             break
             #         else:
-            #             temp_board[row][column + 1] = reversed_board_row[column]
+            #             temp_board[row][column + 1] = self._board[row][column]
             #             column += 1
             #     else:
-            #         reversed_temp_row[column + 1] = reversed_board_row[column]
+            #         temp_board[row][column + 1] = self._board[row][column]
             #         print(temp_board)
             #         break
-            #
-            # temp_board[row] = reversed(reversed_temp_row)
-            # print(temp_board)
-            # self._board[row] = reversed(reversed_board_row)
-            # print(self._board)
 
 
         # disallows a move that would move the board back to previous state
@@ -220,8 +236,8 @@ class KubaGame:
         # sets new previous board and sets board to temporary board
         self._previous_board = copy.deepcopy(self._board)
         self._board = copy.deepcopy(temp_board)
-        print(self._previous_board)
-        print(self._board, "hello")
+        print(self._previous_board, "previous")
+        print(self._board, "board")
 
         # sets current turn to other player after a valid move
         self.set_current_turn(playername)
@@ -326,13 +342,13 @@ class KubaGame:
 
 # game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
 # game.get_marble_count()
-# print(game.get_marble_count()) #returns (8,8,13)
+#print(game.get_marble_count()) #returns (8,8,13)
 #
-# print(game.get_captured('PlayerA')) #returns 0
+#print(game.get_captured('PlayerA')) #returns 0
 # game.get_winner() #returns None
 # #print(game.make_move('PlayerA', (0, 0), 'R'))
 # print(game.make_move('PlayerA', (6,5), 'R'))
-# print(game.make_move('PlayerA', (6,6), 'L'))
+# print(game.make_move('PlayerA', (5, 6), 'L'))
 # game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
 # game.get_marble((5,5)) #returns 'W'
 # print(game.get_marble_count())
