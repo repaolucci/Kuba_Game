@@ -73,6 +73,26 @@ class KubaGame:
         temp_board = self._board
         # TODO: account for moves that undo the prior player's last move
 
+        # moves Right
+        if direction == "R":
+
+            # checks for adjacent blank cell and returns False is spot to the left
+            # of move is occupied
+            if (column - 1) >= 0:  # when player marble is not in leftmost column
+                if self._board[row][column - 1] != "X":
+                    return False
+
+            # checks if player's own marble would be pushed off
+            if self._board[row][-1] == player_marble_color:
+                if "X" not in self._board[row][(column + 1):]:
+                    return False
+
+        # sets current turn to other player after a valid move
+        self.set_current_turn(playername)
+
+        # returns True after a valid move
+        #return True
+
         # moves Left
         if direction == "L":
 
