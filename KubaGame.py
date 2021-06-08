@@ -68,17 +68,27 @@ class KubaGame:
         if player_marble_color != self.get_player_color(playername):
             return False
 
-        # saves a copy of board
+        # saves copies of board
         self._previous_board = self._board
+        temp_board = self._board
         # TODO: account for moves that undo the prior player's last move
 
+        # moves Left
         if direction == "L":
+
+            # checks for adjacent blank cell
             if self._board[row][column + 1] != "X":
                 return False
 
+            # checks if player's own marble would be pushed off
+            if self._board[row][0] == player_marble_color:
+                if "X" not in self._board[row][:column]:
+                    return False
 
+        # sets current turn to other player after a valid move
+        self.set_current_turn(playername)
 
-
+        # returns True after a valid move
         #return True
 
     def get_winner(self):
@@ -146,9 +156,19 @@ class KubaGame:
         if playername == self._player_2_name:
             return self._player_2
 
-    def set_current_turn(self):
+    def set_current_turn(self, playername):
         """Sets self._current_turn to the other player when a valid move is made."""
-        if self.get_current_turn() == self._player_1_name:
+        if playername == self._player_1_name:
             self._current_turn = self._player_2_name
-        if self.get_current_turn() == self._player_2_name:
+        if playername == self._player_2_name:
             self._current_turn = self._player_1_name
+
+
+game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
+print(game.get_marble_count()) #returns (8,8,13)
+print(game.get_captured('PlayerA')) #returns 0
+game.get_winner() #returns None
+game.make_move('PlayerA', (6,5), 'F')
+game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
+game.get_marble((5,5)) #returns 'W'
+print(game.get_current_turn())
