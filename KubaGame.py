@@ -57,7 +57,11 @@ class KubaGame:
         Takes a player's name as a parameter and returns the number of Red marbles
         captured by the player, or 0 if no marbles are captured.
         """
-        pass
+        if player == self._player_1_name:
+            return self._player_1_captured
+
+        if player == self._player_2_name:
+            return self._player_2_captured
 
     def get_marble(self, coordinates):
         """
