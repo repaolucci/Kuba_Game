@@ -21,6 +21,9 @@ class KubaGame:
         self._winner = None
         self._player_1_captured = 0
         self._player_2_captured = 0
+        self._w_count = 0
+        self._b_count = 0
+        self._r_count = 0
         self._board = [["W", "W", "X", "X", "X", "B", "B"],
                        ["W", "W", "X", "R", "X", "B", "B"],
                        ["X", "X", "R", "R", "R", "X", "X"],
@@ -68,7 +71,21 @@ class KubaGame:
         Returns the number of White marbles, Black marbles, and Red marbles as
         a tuple.
         """
-        pass
+        for row in self._board:
+            for cell in row:
+                if cell == "W":
+                    self._w_count += 1
+
+        for row in self._board:
+            for cell in row:
+                if cell == "B":
+                    self._b_count += 1
+
+        for row in self._board:
+            for cell in row:
+                if cell == "R":
+                    self._r_count += 1
+        return (self._w_count, self._b_count, self._r_count)
 
     def get_player_name(self):
         """Returns the name of the player."""
