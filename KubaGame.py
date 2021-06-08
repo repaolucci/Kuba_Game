@@ -46,7 +46,9 @@ class KubaGame:
         direction, for the direction in which the player wants to push the marble. A
         successful move returns True. A move made under invalid conditions returns False.
         """
-        pass
+        if not playername == self.get_current_turn() or self.get_current_turn() == None:
+            return False
+
 
     def get_winner(self):
         """Returns the name of the winning player, or None if no player has won yet."""
