@@ -164,7 +164,16 @@ class KubaGame:
         # TODO: set winner if all opposing marbles are removed from the board
         if self.get_captured(playername) == 7:
             self.set_winner(playername)
-
+        if self._w_count == 0:
+            if self._player_1_color == "W":
+                self.set_winner(self._player_1_name)
+            else:
+                self.set_winner(self._player_2_name)
+        if self._b_count == 0:
+            if self._player_1_color == "B":
+                self.set_winner(self._player_1_name)
+            else:
+                self.set_winner(self._player_2_name)
 
         # TODO: returns True after a valid move
         return True
@@ -173,8 +182,8 @@ class KubaGame:
         """Returns the name of the winning player, or None if no player has won yet."""
         return self._winner
 
-    def set_winner(self, player):
-        self._winner = player
+    def set_winner(self, player_name):
+        self._winner = player_name
 
     def get_captured(self, player):
         """
@@ -233,7 +242,6 @@ class KubaGame:
             return self._player_1_color
         if playername == self._player_2_name:
             return self._player_2_color
-        pass
 
     def get_player(self, playername):
         if playername == self._player_1_name:
