@@ -164,11 +164,11 @@ class KubaGame:
             self._current_turn = self._player_1_name
 
 
-game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
-print(game.get_marble_count()) #returns (8,8,13)
-print(game.get_captured('PlayerA')) #returns 0
-game.get_winner() #returns None
-game.make_move('PlayerA', (6,5), 'F')
-game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
-game.get_marble((5,5)) #returns 'W'
-print(game.get_current_turn())
+# game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
+# print(game.get_marble_count()) #returns (8,8,13)
+# print(game.get_captured('PlayerA')) #returns 0
+# game.get_winner() #returns None
+# game.make_move('PlayerA', (6,5), 'F')
+# game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
+# game.get_marble((5,5)) #returns 'W'
+# print(game.get_current_turn())
