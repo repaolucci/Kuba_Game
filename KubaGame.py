@@ -4,6 +4,7 @@
 
 import copy
 
+
 class KubaGame:
     """A class representing the Kuba Game."""
 
@@ -120,7 +121,6 @@ class KubaGame:
                     print(temp_board)
                     break
 
-
             # for marble in self._board[row][column + 1:]:
             #     if marble != "X":
             #         if (column + 1) == 6:
@@ -134,19 +134,52 @@ class KubaGame:
             #         break
             #         print(temp_board)
 
-
-
         # moves Left
         if direction == "L":
 
-            # checks for adjacent blank cell
-            if temp_board[row][column + 1] != "X":
+            # checks for adjacent blank cell and returns False if spot to the right
+            # of marble being moved is occupied
+            if column < 6:  # when player marble is not in rightmost column
+                if temp_board[row][column + 1] != "X":
+                    return False
+
+            # TODO: account for player marble in last column
+            # checks if player's own marble would be pushed off
+            if column == 0:  # other marble colors are already weeded out
                 return False
 
-            # checks if player's own marble would be pushed off
+            # slices list after marble and determines if an empty cell would
+            # save a player's own marble from being pushed off
             if temp_board[row][0] == player_marble_color:
                 if "X" not in temp_board[row][:column]:
                     return False
+
+            # TODO: shift each marble in a row to the left by one column and
+            #  account for captured Red marbles or removed marbles of the
+            #  other player's color
+            temp_board[row][column] = "X"
+            #
+            for marble in self._board[row][:column]:
+                if marble != "X":  # if cell is not empty
+                    if (column - 1) == 0:
+                        if marble == "R":
+                            self.set_captured(playername)
+                            self._r_count -= 1
+            #             if marble == "W":
+            #                 self._w_count -= 1
+            #             if marble == "B":
+            #                 self._b_count -= 1
+            #             temp_board[row][column + 1] = self._board[row][column]
+            #             print(self._board)
+            #             print(temp_board)
+            #             break
+            #         else:
+            #             temp_board[row][column + 1] = self._board[row][column]
+            #             column += 1
+            #     else:
+            #         temp_board[row][column + 1] = self._board[row][column]
+            #         print(temp_board)
+            #         break
 
         # disallows a move that would move the board back to previous state
         if temp_board == self._previous_board:
@@ -183,6 +216,7 @@ class KubaGame:
         return self._winner
 
     def set_winner(self, player_name):
+        """Sets the winner, given a player name as a parameter."""
         self._winner = player_name
 
     def get_captured(self, player):
@@ -197,11 +231,11 @@ class KubaGame:
             return self._player_2_captured
 
     def set_captured(self, player):
+        """Given a player name, tracks and sets the captured red marbles for each player."""
         if player == self._player_1_name:
             self._player_1_captured += 1
         if player == self._player_2_name:
             self._player_2_captured += 1
-
 
     def get_marble(self, coordinates):
         """
@@ -244,6 +278,7 @@ class KubaGame:
             return self._player_2_color
 
     def get_player(self, playername):
+        """Given a player name, returns the player."""
         if playername == self._player_1_name:
             return self._player_1
         if playername == self._player_2_name:
