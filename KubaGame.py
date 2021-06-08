@@ -17,7 +17,7 @@ class KubaGame:
         self._player_1_color = player_1_tuple[1]
         self._player_2_name = player_2_tuple[0]
         self._player_2_color = player_2_tuple[1]
-        self._current_turn = 0
+        self._current_turn = None
         self._winner = None
         self._player_1_captured = 0
         self._player_2_captured = 0
