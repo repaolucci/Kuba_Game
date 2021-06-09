@@ -3,7 +3,7 @@
 # Description: A program for the Kuba board game.
 
 import copy
-import numpy
+#import numpy
 
 
 class KubaGame:
