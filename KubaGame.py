@@ -101,8 +101,8 @@ class KubaGame:
             for marble in self._board[row][column + 1:]:
                 if marble != "X":  # if cell is not empty
                     if (column + 1) == 6:
-                        # if marble == "R":
-                        #     self.set_captured(playername)
+                        if marble == "R":
+                            self.set_captured(playername)
                         #     self._r_count -= 1
                         # if marble == "W":
                         #     self._w_count -= 1
@@ -148,8 +148,8 @@ class KubaGame:
             for marble in self._board[row][column-1::-1]:
                 if marble != "X":  # if cell is not empty
                     if (column - 1) == 0:
-                        # if marble == "R":
-                        #     self.set_captured(playername)
+                        if marble == "R":
+                            self.set_captured(playername)
                         #     self._r_count -= 1
                         # if marble == "W":
                         #     self._w_count -= 1
@@ -202,6 +202,8 @@ class KubaGame:
                 print(i)
                 if marble != "X":  # if cell is not empty
                     if i == 0:
+                        if marble == "R":
+                            self.set_captured(playername)
                         print("???")
                         temp_board[i][column] = self._board[i+1][column]
                         #print(self._board)
@@ -251,8 +253,8 @@ class KubaGame:
                 if marble != "X":  # if cell is not empty
                     print(marble)
                     if i == 6:
-                        # if marble == "R":
-                        #     self.set_captured(playername)
+                        if marble == "R":
+                            self.set_captured(playername)
                         #     self._r_count -= 1
                         # if marble == "W":
                         #     self._w_count -= 1
@@ -276,7 +278,8 @@ class KubaGame:
         # sets new previous board and sets board to temporary board
         self._previous_board = self._board
         self._board = temp_board
-        # print(self._previous_board, "previous")
+
+        # test code for visual matrices
         # board_as_array = numpy.array(self._board)
         # temp_as_array = numpy.array(temp_board)
         # previous_as_array = numpy.array(self._previous_board)
