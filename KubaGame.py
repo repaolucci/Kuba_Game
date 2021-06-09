@@ -285,10 +285,6 @@ class KubaGame:
                     print(temp_board)
                     break
 
-
-
-
-
         # disallows a move that would move the board back to previous state
         if temp_board == self._previous_board:
             return False
@@ -315,6 +311,10 @@ class KubaGame:
                 self.set_winner(self._player_1_name)
             else:
                 self.set_winner(self._player_2_name)
+
+        print(playername)
+        print(direction)
+        print(coordinates)
 
         # TODO: returns True after a valid move
         return True
@@ -402,15 +402,15 @@ class KubaGame:
 
 # game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
 # game.get_marble_count()
-# print(game.get_marble_count()) #returns (8,8,13)
-#
-#print(game.get_captured('PlayerA')) #returns 0
-# game.get_winner() #returns None
-# print(game.make_move('PlayerA', (6, 5), 'F'))
-# #print(game.make_move('PlayerA', (0, 0), 'R'))
-# print(game.make_move('PlayerA', (6,5), 'R'))
-# print(game.make_move('PlayerA', (5, 6), 'L'))
-# game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
-# game.get_marble((5,5)) #returns 'W'
-# print(game.get_marble_count())
-# print(game.get_current_turn())
+# # print(game.get_marble_count()) #returns (8,8,13)
+# #
+# #print(game.get_captured('PlayerA')) #returns 0
+# # game.get_winner() #returns None
+# #print(game.make_move('PlayerA', (6, 5), 'F'))
+# print(game.make_move('PlayerA', (0, 0), 'B'))
+# # print(game.make_move('PlayerA', (6,5), 'R'))
+# # print(game.make_move('PlayerA', (5, 6), 'L'))
+# # game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
+# # game.get_marble((5,5)) #returns 'W'
+# # print(game.get_marble_count())
+# # print(game.get_current_turn())
