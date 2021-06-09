@@ -184,31 +184,41 @@ class KubaGame:
         # moves Forward
         if direction == "F":
 
-            # checks for adjacent blank cell and returns False if spot aft
-            # of marble being moved is occupied
-            if (row - 1) >= 0:  # when player marble is not in topmost row
+            # checks for adjacent blank cell and returns False if the spot
+            # backward of marble being moved is occupied
+            if row < 6:  # when player marble is not in bottom row
                 if temp_board[row + 1][column] != "X":
                     return False
 
-            # TODO: account for player marble in last column
+            # TODO: account for player marble in top row
             # checks if player's own marble would be pushed off
             if row == 0:  # other marble colors are already weeded out
                 return False
 
             # slices list after marble and determines if an empty cell would
             # save a player's own marble from being pushed off
-            # if temp_board[row][-1] == player_marble_color:
-            #     if "X" not in temp_board[row][(column + 1):]:
-            #         return False
-            #
-            # # TODO: shift each marble in a row to the right by one column and
-            # #  account for captured Red marbles or removed marbles of the
-            # #  other player's color
-            # temp_board[row][column] = "X"
-            #
-            # for marble in self._board[row][column + 1:]:
-            #     if marble != "X":  # if cell is not empty
-            #         if (column + 1) == 6:
+            list_1 = []
+            if temp_board[0][column] == player_marble_color:
+                for i in range(row + 1, len(temp_board)):
+                    list_1.append(temp_board[i][column])
+                    print(list_1)
+                if "X" not in list_1:
+                    return False
+
+            # TODO: shift each marble in a column up by one row and
+            #  account for captured Red marbles or removed marbles of the
+            #  other player's color
+            temp_board[row][column] = "X"
+
+            for i in range(row -1, -1, -1):
+                marble = temp_board[i][column]
+                if marble != "X":  # if cell is not empty
+                    if (row - 1) == 0:
+                        continue
+
+            #for marble in self._board[row + 1][column]:
+            #    if marble != "X":  # if cell is not empty
+            #        if (row - 1) == 0:
             #             if marble == "R":
             #                 self.set_captured(playername)
             #                 self._r_count -= 1
