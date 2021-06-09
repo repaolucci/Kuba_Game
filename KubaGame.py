@@ -3,6 +3,7 @@
 # Description: A program for the Kuba board game.
 
 import copy
+import numpy
 
 
 class KubaGame:
@@ -24,9 +25,9 @@ class KubaGame:
         self._winner = None
         self._player_1_captured = 0
         self._player_2_captured = 0
-        self._w_count = 8
-        self._b_count = 8
-        self._r_count = 13
+        # self._w_count = 0
+        # self._b_count = 0
+        # self._r_count = 0
         self._previous_board = None
         self._board = [["W", "W", "X", "X", "X", "B", "B"],
                        ["W", "W", "X", "R", "X", "B", "B"],
@@ -35,6 +36,7 @@ class KubaGame:
                        ["X", "X", "R", "R", "R", "X", "X"],
                        ["B", "B", "X", "R", "X", "W", "W"],
                        ["B", "B", "X", "X", "X", "W", "W"]]
+        #self._board_as_array = numpy.array(self._board)
 
     def get_current_turn(self):
         """
@@ -80,7 +82,7 @@ class KubaGame:
             # checks for adjacent blank cell and returns False if spot to the left
             # of marble being moved is occupied
             if (column - 1) >= 0:  # when player marble is not in leftmost column
-                if temp_board[row][column - 1] != "X":
+                if self._board[row][column - 1] != "X":
                     return False
 
             # TODO: account for player marble in last column
@@ -90,8 +92,8 @@ class KubaGame:
 
             # slices list after marble and determines if an empty cell would
             # save a player's own marble from being pushed off
-            if temp_board[row][-1] == player_marble_color:
-                if "X" not in temp_board[row][(column + 1):]:
+            if self._board[row][-1] == player_marble_color:
+                if "X" not in self._board[row][(column + 1):]:
                     return False
 
             # TODO: shift each marble in a row to the right by one column and
@@ -120,19 +122,6 @@ class KubaGame:
                     temp_board[row][column + 1] = self._board[row][column]
                     print(temp_board)
                     break
-
-            # for marble in self._board[row][column + 1:]:
-            #     if marble != "X":
-            #         if (column + 1) == 6:
-            #             if marble == "R":
-            #                 self.set_captured(playername)
-            #         temp_board[row][column + 2] = marble
-            #         column += 1
-            #         print(temp_board)
-            #     if marble == "X":
-            #         temp_board[row][column + 2] = marble
-            #         break
-            #         print(temp_board)
 
         # moves Left
         if direction == "L":
@@ -211,10 +200,12 @@ class KubaGame:
             temp_board[row][column] = "X"
 
             for i in range(row -1, -1, -1):
-                marble = temp_board[i][column]
+                marble = self._board[i][column]
                 if marble != "X":  # if cell is not empty
                     print(marble)
+                    print(i)
                     if i == 0:
+                        print("???")
                         if marble == "R":
                             self.set_captured(playername)
                             self._r_count -= 1
@@ -222,6 +213,7 @@ class KubaGame:
                             self._w_count -= 1
                         if marble == "B":
                             self._b_count -= 1
+                            print("???")
                         temp_board[i - 1][column] = self._board[i][column]
                         print(self._board)
                         print(temp_board)
@@ -290,10 +282,14 @@ class KubaGame:
             return False
 
         # sets new previous board and sets board to temporary board
-        self._previous_board = copy.deepcopy(self._board)
-        self._board = copy.deepcopy(temp_board)
-        print(self._previous_board, "previous")
-        print(self._board, "board")
+        self._previous_board = self._board
+        self._board = temp_board
+        #print(self._previous_board, "previous")
+        #temp_as_array = numpy.array(temp_board)
+        #previous_as_array = numpy.array(self._previous_board)
+        #print(self._board_as_array, "board", "\n")
+        #print(temp_as_array, "temp", "\n")
+        #print(previous_as_array, "previous", "\n")
 
         # sets current turn to other player after a valid move
         self.set_current_turn(playername)
@@ -301,20 +297,24 @@ class KubaGame:
         # TODO: set winner if all opposing marbles are removed from the board
         if self.get_captured(playername) == 7:
             self.set_winner(playername)
-        if self._w_count == 0:
+        if self.get_marble_count()[0] == 0:
             if self._player_1_color == "W":
                 self.set_winner(self._player_1_name)
             else:
                 self.set_winner(self._player_2_name)
-        if self._b_count == 0:
+        if self.get_marble_count()[1] == 0:
             if self._player_1_color == "B":
                 self.set_winner(self._player_1_name)
             else:
                 self.set_winner(self._player_2_name)
 
-        print(playername)
-        print(direction)
-        print(coordinates)
+        print(self.get_marble_count()[0])
+        print(self.get_marble_count()[1])
+        print(self.get_marble_count()[2])
+
+        # print(playername)
+        # print(direction)
+        # print(coordinates)
 
         # TODO: returns True after a valid move
         return True
@@ -358,21 +358,25 @@ class KubaGame:
         Returns the number of White marbles, Black marbles, and Red marbles as
         a tuple.
         """
-        # for row in self._board:
-        #     for cell in row:
-        #         if cell == "W":
-        #             self._w_count += 1
-        #
-        # for row in self._board:
-        #     for cell in row:
-        #         if cell == "B":
-        #             self._b_count += 1
-        #
-        # for row in self._board:
-        #     for cell in row:
-        #         if cell == "R":
-        #             self._r_count += 1
-        return (self._w_count, self._b_count, self._r_count)
+        r_count = 0
+        w_count = 0
+        b_count = 0
+
+        for row in self._board:
+            for cell in row:
+                if cell == "W":
+                    w_count += 1
+
+        for row in self._board:
+            for cell in row:
+                if cell == "B":
+                    b_count += 1
+
+        for row in self._board:
+            for cell in row:
+                if cell == "R":
+                    r_count += 1
+        return (w_count, b_count, r_count)
 
     def get_player_name(self):
         """Returns the name of the player."""
@@ -402,6 +406,13 @@ class KubaGame:
 
 # game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
 # game.get_marble_count()
+# print(game.make_move('PlayerA', (6, 5), 'F'))
+# print(game.make_move('PlayerB', (0, 5), 'B'))
+#print(game.make_move('PlayerA', (5, 5), 'F'))
+#print(game.make_move('PlayerB', (0, 6), 'L'))
+
+
+
 # # print(game.get_marble_count()) #returns (8,8,13)
 # #
 # #print(game.get_captured('PlayerA')) #returns 0
