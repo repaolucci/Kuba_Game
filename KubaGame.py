@@ -233,27 +233,60 @@ class KubaGame:
                     print(temp_board)
                     break
 
-            #for marble in self._board[row + 1][column]:
-            #    if marble != "X":  # if cell is not empty
-            #        if (row - 1) == 0:
-            #             if marble == "R":
-            #                 self.set_captured(playername)
-            #                 self._r_count -= 1
-            #             if marble == "W":
-            #                 self._w_count -= 1
-            #             if marble == "B":
-            #                 self._b_count -= 1
-            #             temp_board[row][column + 1] = self._board[row][column]
-            #             print(self._board)
-            #             print(temp_board)
-            #             break
-            #         else:
-            #             temp_board[row][column + 1] = self._board[row][column]
-            #             column += 1
-            #     else:
-            #         temp_board[row][column + 1] = self._board[row][column]
-            #         print(temp_board)
-            #         break
+        # moves Backward
+        if direction == "B":
+
+            # checks for adjacent blank cell and returns False if the spot
+            # Forward of marble being moved is occupied
+            if row > 0:  # when player marble is not in top row
+                if temp_board[row - 1][column] != "X":
+                    return False
+
+            # TODO: account for player marble in bottom row
+            # checks if player's own marble would be pushed off
+            if row == 6:  # other marble colors are already weeded out
+                return False
+
+            # slices list after marble and determines if an empty cell would
+            # save a player's own marble from being pushed off
+            list_1 = []
+            if temp_board[6][column] == player_marble_color:
+                for i in range(row + 1, len(temp_board)):
+                    list_1.append(temp_board[i][column])
+                    print(list_1)
+                if "X" not in list_1:
+                    return False
+
+            # TODO: shift each marble in a column up by one row and
+            #  account for captured Red marbles or removed marbles of the
+            #  other player's color
+            temp_board[row][column] = "X"
+
+            for i in range(row + 1, len(temp_board)):
+                marble = temp_board[i][column]
+                if marble != "X":  # if cell is not empty
+                    print(marble)
+                    if i == 6:
+                        if marble == "R":
+                            self.set_captured(playername)
+                            self._r_count -= 1
+                        if marble == "W":
+                            self._w_count -= 1
+                        if marble == "B":
+                            self._b_count -= 1
+                        temp_board[i + 1][column] = self._board[i][column]
+                        print(self._board)
+                        print(temp_board)
+                        break
+                    else:
+                        temp_board[i + 1][column] = self._board[i][column]
+                else:
+                    temp_board[i + 1][column] = self._board[i][column]
+                    print(temp_board)
+                    break
+
+
+
 
 
         # disallows a move that would move the board back to previous state
@@ -369,10 +402,11 @@ class KubaGame:
 
 # game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
 # game.get_marble_count()
-#print(game.get_marble_count()) #returns (8,8,13)
+# print(game.get_marble_count()) #returns (8,8,13)
 #
 #print(game.get_captured('PlayerA')) #returns 0
 # game.get_winner() #returns None
+# print(game.make_move('PlayerA', (6, 5), 'F'))
 # #print(game.make_move('PlayerA', (0, 0), 'R'))
 # print(game.make_move('PlayerA', (6,5), 'R'))
 # print(game.make_move('PlayerA', (5, 6), 'L'))
