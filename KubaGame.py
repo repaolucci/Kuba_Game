@@ -178,8 +178,8 @@ class KubaGame:
             # save a player's own marble from being pushed off
             list_1 = []
             if temp_board[0][column] == player_marble_color:
-                for i in range(row - 1, -1, -1):
-                    list_1.append(temp_board[i][column])
+                for row_number in range(row - 1, -1, -1):
+                    list_1.append(temp_board[row_number][column])
                 if "X" not in list_1:
                     return False
 
@@ -188,18 +188,18 @@ class KubaGame:
             #  other player's color
             temp_board[row][column] = "X"
 
-            for i in range(row -1, -1, -1):
-                marble = self._board[i][column]
+            for row_number in range(row -1, -1, -1):
+                marble = self._board[row_number][column]
                 if marble != "X":  # if cell is not empty
-                    if i == 0:
+                    if row_number == 0:
                         if marble == "R":
                             self.set_captured(playername)
-                        temp_board[i][column] = self._board[i+1][column]
+                        temp_board[row_number][column] = self._board[row_number+1][column]
                         break
                     else:
-                        temp_board[i][column] = self._board[i+1][column]
+                        temp_board[row_number][column] = self._board[row_number+1][column]
                 else:
-                    temp_board[i][column] = self._board[i+1][column]
+                    temp_board[row_number][column] = self._board[row_number+1][column]
                     break
 
         # moves Backward
@@ -220,8 +220,8 @@ class KubaGame:
             # save a player's own marble from being pushed off
             list_1 = []
             if temp_board[6][column] == player_marble_color:
-                for i in range(row + 1, len(temp_board)):
-                    list_1.append(temp_board[i][column])
+                for row_number in range(row + 1, len(temp_board)):
+                    list_1.append(temp_board[row_number][column])
                 if "X" not in list_1:
                     return False
 
@@ -230,18 +230,18 @@ class KubaGame:
             # other player's color
             temp_board[row][column] = "X"
 
-            for i in range(row + 1, len(temp_board)):
-                marble = temp_board[i][column]
+            for row_number in range(row + 1, len(temp_board)):
+                marble = temp_board[row_number][column]
                 if marble != "X":  # if cell is not empty
-                    if i == 6:
+                    if row_number == 6:
                         if marble == "R":
                             self.set_captured(playername)
-                        temp_board[i][column] = self._board[i - 1][column]
+                        temp_board[row_number][column] = self._board[row_number - 1][column]
                         break
                     else:
-                        temp_board[i][column] = self._board[i - 1][column]
+                        temp_board[row_number][column] = self._board[row_number - 1][column]
                 else:
-                    temp_board[i][column] = self._board[i - 1][column]
+                    temp_board[row_number][column] = self._board[row_number - 1][column]
                     break
 
         # disallows a move that would move the board back to previous state
