@@ -3,7 +3,6 @@
 # Description: A program for the Kuba board game.
 
 import copy
-#import numpy
 
 
 class KubaGame:
@@ -82,7 +81,7 @@ class KubaGame:
                 if self._board[row][column - 1] != "X":
                     return False
 
-            # TODO: account for player marble in last column
+            # accounts for player marble in last column
             # checks if player's own marble would be pushed off
             if column == 6:  # other marble colors are already weeded out
                 return False
@@ -93,7 +92,7 @@ class KubaGame:
                 if "X" not in self._board[row][(column + 1):]:
                     return False
 
-            # TODO: shift each marble in a row to the right by one column and
+            #  shifts each marble in a row to the right by one column and
             #  account for captured Red marbles or removed marbles of the
             #  other player's color
             temp_board[row][column] = "X"
@@ -109,15 +108,12 @@ class KubaGame:
                         # if marble == "B":
                         #     self._b_count -= 1
                         temp_board[row][column + 1] = self._board[row][column]
-                        print(self._board)
-                        print(temp_board)
                         break
                     else:
                         temp_board[row][column + 1] = self._board[row][column]
                         column += 1
                 else:
                     temp_board[row][column + 1] = self._board[row][column]
-                    print(temp_board)
                     break
 
         # moves Left
@@ -129,7 +125,7 @@ class KubaGame:
                 if temp_board[row][column + 1] != "X":
                     return False
 
-            # TODO: account for player marble in last column
+            # accounts for player marble in last column
             # checks if player's own marble would be pushed off
             if column == 0:  # other marble colors are already weeded out
                 return False
@@ -140,9 +136,9 @@ class KubaGame:
                 if "X" not in temp_board[row][:column]:
                     return False
 
-            # TODO: shift each marble in a row to the left by one column and
-            #  account for captured Red marbles or removed marbles of the
-            #  other player's color
+            # shifts each marble in a row to the left by one column and
+            # account for captured Red marbles or removed marbles of the
+            # other player's color
             temp_board[row][column] = "X"
 
             for marble in self._board[row][column-1::-1]:
@@ -156,15 +152,12 @@ class KubaGame:
                         # if marble == "B":
                         #     self._b_count -= 1
                         temp_board[row][column - 1] = self._board[row][column]
-                        print(self._board)
-                        print(temp_board)
                         break
                     else:
                         temp_board[row][column - 1] = self._board[row][column]
                         column -= 1
                 else:
                     temp_board[row][column - 1] = self._board[row][column]
-                    print(temp_board)
                     break
 
         # moves Forward
@@ -176,7 +169,7 @@ class KubaGame:
                 if temp_board[row + 1][column] != "X":
                     return False
 
-            # TODO: account for player marble in top row
+            # accounts for player marble in top row
             # checks if player's own marble would be pushed off
             if row == 0:  # other marble colors are already weeded out
                 return False
@@ -187,36 +180,26 @@ class KubaGame:
             if temp_board[0][column] == player_marble_color:
                 for i in range(row - 1, -1, -1):
                     list_1.append(temp_board[i][column])
-                    print(list_1)
                 if "X" not in list_1:
                     return False
 
-            # TODO: shift each marble in a column up by one row and
+            #  shifts each marble in a column up by one row and
             #  account for captured Red marbles or removed marbles of the
             #  other player's color
             temp_board[row][column] = "X"
 
             for i in range(row -1, -1, -1):
                 marble = self._board[i][column]
-                print(marble)
-                print(i)
                 if marble != "X":  # if cell is not empty
                     if i == 0:
                         if marble == "R":
                             self.set_captured(playername)
-                        print("???")
                         temp_board[i][column] = self._board[i+1][column]
-                        #print(self._board)
-                        #print(temp_board)
                         break
                     else:
-                        print("??")
-                        print(temp_board)
                         temp_board[i][column] = self._board[i+1][column]
                 else:
                     temp_board[i][column] = self._board[i+1][column]
-                    print(temp_board)
-                    print("?")
                     break
 
         # moves Backward
@@ -228,7 +211,7 @@ class KubaGame:
                 if temp_board[row - 1][column] != "X":
                     return False
 
-            # TODO: account for player marble in bottom row
+            # accounts for player marble in bottom row
             # checks if player's own marble would be pushed off
             if row == 6:  # other marble colors are already weeded out
                 return False
@@ -239,36 +222,26 @@ class KubaGame:
             if temp_board[6][column] == player_marble_color:
                 for i in range(row + 1, len(temp_board)):
                     list_1.append(temp_board[i][column])
-                    print(list_1)
                 if "X" not in list_1:
                     return False
 
-            # TODO: shift each marble in a column up by one row and
-            #  account for captured Red marbles or removed marbles of the
-            #  other player's color
+            # shifts each marble in a column up by one row and
+            # account for captured Red marbles or removed marbles of the
+            # other player's color
             temp_board[row][column] = "X"
 
             for i in range(row + 1, len(temp_board)):
                 marble = temp_board[i][column]
                 if marble != "X":  # if cell is not empty
-                    print(marble)
                     if i == 6:
                         if marble == "R":
                             self.set_captured(playername)
-                        #     self._r_count -= 1
-                        # if marble == "W":
-                        #     self._w_count -= 1
-                        # if marble == "B":
-                        #     self._b_count -= 1
                         temp_board[i][column] = self._board[i - 1][column]
-                        #print(self._board)
-                       # print(temp_board)
                         break
                     else:
                         temp_board[i][column] = self._board[i - 1][column]
                 else:
                     temp_board[i][column] = self._board[i - 1][column]
-                    #print(temp_board)
                     break
 
         # disallows a move that would move the board back to previous state
@@ -279,18 +252,10 @@ class KubaGame:
         self._previous_board = self._board
         self._board = temp_board
 
-        # test code for visual matrices
-        # board_as_array = numpy.array(self._board)
-        # temp_as_array = numpy.array(temp_board)
-        # previous_as_array = numpy.array(self._previous_board)
-        # print(board_as_array, "board", "\n")
-        # print(temp_as_array, "temp", "\n")
-        # print(previous_as_array, "previous", "\n")
-
         # sets current turn to other player after a valid move
         self.set_current_turn(playername)
 
-        # TODO: set winner if all opposing marbles are removed from the board
+        # sets winner if all opposing marbles are removed from the board
         if self.get_captured(playername) == 7:
             self.set_winner(playername)
         if self.get_marble_count()[0] == 0:
@@ -304,15 +269,6 @@ class KubaGame:
             else:
                 self.set_winner(self._player_2_name)
 
-        print(self.get_marble_count()[0])
-        print(self.get_marble_count()[1])
-        print(self.get_marble_count()[2])
-
-        # print(playername)
-        # print(direction)
-        # print(coordinates)
-
-        # TODO: returns True after a valid move
         return True
 
     def get_winner(self):
@@ -374,10 +330,6 @@ class KubaGame:
                     r_count += 1
         return (w_count, b_count, r_count)
 
-    def get_player_name(self):
-        """Returns the name of the player."""
-        pass
-
     def get_player_color(self, playername):
         """Returns the player marble color."""
         if playername == self._player_1_name:
@@ -398,39 +350,3 @@ class KubaGame:
             self._current_turn = self._player_2_name
         if playername == self._player_2_name:
             self._current_turn = self._player_1_name
-
-
-# game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
-# game.get_marble_count()
-# print(game.make_move('PlayerA', (6, 5), 'F'))
-# print(game.make_move('PlayerB', (0, 5), 'B'))
-# print(game.make_move('PlayerA', (5, 5), 'F'))
-# print(game.make_move('PlayerB', (0, 6), 'L'))
-# game.get_marble_count()
-
-
-# # print(game.get_marble_count()) #returns (8,8,13)
-# #
-# #print(game.get_captured('PlayerA')) #returns 0
-# # game.get_winner() #returns None
-# #print(game.make_move('PlayerA', (6, 5), 'F'))
-# print(game.make_move('PlayerA', (0, 0), 'B'))
-
-# print(game.make_move('PlayerA', (6, 6), 'L'))
-# print(game.make_move('PlayerB', (0, 5), 'L'))
-# print(game.make_move('PlayerA', (6, 5), 'L'))
-# print(game.make_move('PlayerB', (0, 4), 'L'))
-# print(game.make_move('PlayerA', (6, 4), 'L'))
-# print(game.make_move('PlayerB', (0, 3), 'L'))
-# print(game.make_move('PlayerA', (6, 3), 'L'))
-# print(game.make_move('PlayerB', (0, 2), 'L'))
-# print(game.make_move('PlayerA', (6, 2), 'L'))
-
-
-
-
-# # print(game.make_move('PlayerA', (5, 6), 'L'))
-# # game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
-# # game.get_marble((5,5)) #returns 'W'
-# # print(game.get_marble_count())
-# # print(game.get_current_turn())
