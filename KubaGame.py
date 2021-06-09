@@ -199,7 +199,7 @@ class KubaGame:
             # save a player's own marble from being pushed off
             list_1 = []
             if temp_board[0][column] == player_marble_color:
-                for i in range(row + 1, len(temp_board)):
+                for i in range(row -1, -1, -1):
                     list_1.append(temp_board[i][column])
                     print(list_1)
                 if "X" not in list_1:
