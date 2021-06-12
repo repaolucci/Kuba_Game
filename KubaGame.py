@@ -102,11 +102,6 @@ class KubaGame:
                     if (column + 1) == 6:
                         if marble == "R":
                             self.set_captured(playername)
-                        #     self._r_count -= 1
-                        # if marble == "W":
-                        #     self._w_count -= 1
-                        # if marble == "B":
-                        #     self._b_count -= 1
                         temp_board[row][column + 1] = self._board[row][column]
                         break
                     else:
@@ -146,11 +141,6 @@ class KubaGame:
                     if (column - 1) == 0:
                         if marble == "R":
                             self.set_captured(playername)
-                        #     self._r_count -= 1
-                        # if marble == "W":
-                        #     self._w_count -= 1
-                        # if marble == "B":
-                        #     self._b_count -= 1
                         temp_board[row][column - 1] = self._board[row][column]
                         break
                     else:
