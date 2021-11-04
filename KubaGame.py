@@ -340,3 +340,13 @@ class KubaGame:
             self._current_turn = self._player_2_name
         if playername == self._player_2_name:
             self._current_turn = self._player_1_name
+
+if __name__ == '__main__':
+    game = KubaGame(('PlayerA', 'W'), ('PlayerB', 'B'))
+    print(game.get_marble_count()) #returns (8,8,13)
+    game.get_captured('PlayerA') #returns 0
+    game.get_current_turn() #returns 'PlayerB' because PlayerA has just played.
+    game.get_winner() #returns None
+    game.make_move('PlayerA', (6,5), 'F')
+    game.make_move('PlayerA', (6,5), 'L') #Cannot make this move
+    game.get_marble((5,5)) #returns 'W'
